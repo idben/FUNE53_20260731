@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* reset，大型專案通常會做這樣的動作，讓所有元素統一從 0 開始設定 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 120px;
+            background-color: #f5f7fa;
+            font-family: system-ui, sans-serif;
+            color: #212529;
+        }
+
+        .dropdown-btn {
+            anchor-name: --dropdown;
+            /* 以下是視覺部份 */
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #fff;
+            background-color: #0d6efd;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-btn:hover {
+            background-color: #0b5ed7;
+        }
+
+        .dropdown-btn:active {
+            background-color: #0a58ca;
+        }
+
+        .dropdown-btn::after {
+            content: "";
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #fff;
+        }
+
+        .dropdown-menu {
+            position-anchor: --dropdown;
+            position-area: bottom span-right;
+            width: max-content;
+            min-width: 180px;
+            margin-top: 4px;
+            /* 以下是視覺部份 */
+            padding: 6px 0;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            background-color: #fff;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            list-style: none;
+        }
+
+        .dropdown-menu::backdrop {
+            background-color: transparent;
+        }
+
+        .dropdown-menu:popover-open {
+            animation: fadeIn 0.15s ease-out;
+        }
+
+        .dropdown-item {
+            display: block;
+            width: 100%;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            color: #212529;
+            text-decoration: none;
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.15s;
+        }
+
+        .dropdown-item:hover {
+            background-color: #e9ecef;
+        }
+
+        .dropdown-item:active {
+            background-color: #0d6efd;
+            color: #fff;
+        }
+
+        .dropdown-divider {
+            height: 0;
+            margin: 6px 0;
+            border-top: 1px solid #dee2e6;
+        }
+
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <title>popover API 2</title>
+</head>
+
+<body>
+    <button class="dropdown-btn" popovertarget="dropdown-menu">檔案(F)</button>
+    <ul id="dropdown-menu" class="dropdown-menu" popover>
+        <li><button class="dropdown-item">新增檔案</button></li>
+        <li><button class="dropdown-item">開啟檔案</button></li>
+        <li><button class="dropdown-item">儲存檔案</button></li>
+        <li class="dropdown-divider"></li>
+        <li><button class="dropdown-item">設定</button></li>
+    </ul>
+</body>
+
+</html>
