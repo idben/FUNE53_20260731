@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        .fz12px {
+            font-size: 12px;
+        }
+    </style>
+    <title>typeMismatch 驗證展示</title>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h1>typeMismatch 驗證展示（Email）</h1>
+        <form action="" novalidate>
+            <div class="input-group">
+                <span class="input-group-text">信箱</span>
+                <input class="form-control" type="email" id="email" name="email" required>
+            </div>
+            <div class="error-msg fz12px text-danger" id="email-error">自訂錯誤訊息</div>
+            <div class="d-flex gap-1 mt-1">
+                <button type="submit" class="btn btn-primary ms-auto">送出</button>
+                <button type="reset" class="btn btn-primary">重設</button>
+            </div>
+        </form>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script>
+        const form = document.querySelector("form");
+        const field = document.querySelector("#email");
+        const divError = document.querySelector("#email-error");
+        divError.textContent = "";
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            validateField(e);
+            if (!field.validity.valid) {
+                field.reportValidity();
+            } else {
+                alert("驗證通過");
+                // 最後要再讓表單執行 submit
+                // form.submit()
+            }
+        });
+
+        function validateField(e) {
+            // validity 是跟著欄位跑的，要由欄位取得
+            console.log(field.validity);
+
+            const msg = "請輸入有效的信箱格式";
+            field.setCustomValidity(""); // 清空 UI
+            if (field.validity.typeMismatch) {
+                field.setCustomValidity(msg)
+                divError.textContent = msg;
+            } else {
+                field.setCustomValidity("");
+                divError.textContent = "";
+            }
+
+        }
+    </script>
+</body>
+
+</html>
