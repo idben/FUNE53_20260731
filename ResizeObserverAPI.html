@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #212529;
+            background: #f8f9fa;
+            padding: 0.75rem;
+        }
+
+        /* ===== 容器 ===== */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* ===== 卡片 ===== */
+        .card {
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 0.375rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            padding: 0.75rem 1.25rem;
+            background: #f8f9fa;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #495057;
+        }
+
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        /* ===== 標題 ===== */
+        h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 0.5rem;
+        }
+
+        .lead {
+            font-size: 1.05rem;
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* ===== Badge ===== */
+        .badge {
+            display: inline-block;
+            padding: 0.45em 0.75em;
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.375rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge-primary {
+            color: #fff;
+            background: #0d6efd;
+        }
+
+        .badge-success {
+            color: #fff;
+            background: #198754;
+        }
+
+        /* ===== 按鈕 ===== */
+        .btn {
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1.5;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-radius: 0.375rem;
+            transition: background 0.15s ease-in-out, border-color 0.15s ease-in-out;
+            user-select: none;
+        }
+
+        .btn-outline-secondary {
+            color: #6c757d;
+            border-color: #6c757d;
+            background: transparent;
+        }
+
+        .btn-outline-secondary:hover {
+            color: #fff;
+            background: #6c757d;
+        }
+
+        /* ===== 可調整大小的示範區塊 ===== */
+        .resize-container {
+            position: relative;
+            width: 100%;
+            min-width: 120px;
+            min-height: 120px;
+            height: 200px;
+            max-width: 100%;
+            background: linear-gradient(135deg, #cfe2ff, #b6d4fe);
+            border: 2px solid #6ea8fe;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            resize: both;
+            overflow: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .resize-container:hover {
+            background: linear-gradient(135deg, #b6d4fe, #9ec5fe);
+        }
+
+        .resize-container .inner-text {
+            text-align: center;
+            color: #084298;
+            font-weight: 600;
+            font-size: 1.1rem;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* ===== 歷史紀錄區 ===== */
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .history-header h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #495057;
+            margin: 0;
+        }
+
+        .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: 0.85rem;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+            padding: 0.75rem;
+        }
+
+        .history-list .entry {
+            padding: 0.3rem 0;
+            border-bottom: 1px solid #e9ecef;
+            color: #495057;
+        }
+
+        .history-list .entry:last-child {
+            border-bottom: none;
+        }
+
+        .text-muted {
+            color: #adb5bd;
+        }
+
+        /* ===== 尺寸顯示面板 ===== */
+        .size-display {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+    </style>
+    <title>ResizeObserver API</title>
+</head>
+
+<body>
+    <div class="resize-display">
+        <div class="badge badge-primary" id="w-badge">寬度：000px</div>
+        <div class="badge badge-success" id="h-badge">高度：000px</div>
+    </div>
+    <div class="resize-container" id="resizeBox">
+        <div class="inner-text">調整我的大小</div>
+    </div>
+    <div class="history-list" id="history-list">
+        <div class="entry">尚無記錄</div>
+    </div>
+
+
+    <script>
+        const resizeBox = document.querySelector("#resizeBox");
+        const wBadge = document.querySelector("#w-badge");
+        const hBadge = document.querySelector("#h-badge");
+        const historyList = document.querySelector("#history-list");
+        let isFirst = true;
+
+        const observer = new ResizeObserver((entries) => {
+            for (entry of entries) {
+                const { width, height } = entry.contentRect;
+                wBadge.textContent = `寬度：${width}px`;
+                hBadge.textContent = `高度：${height}px`;
+
+                const now = new Date().toLocaleTimeString();
+                const node = document.createElement("div");
+                node.classList.add("entry");
+                node.textContent = `[${now}] ${width} x ${height} px`;
+
+                if (isFirst) {
+                    // 只做一次的動作，用變數來控制
+                    isFirst = false;
+                    historyList.innerHTML = "";
+                }
+
+                historyList.prepend(node);
+            }
+        });
+
+        observer.observe(resizeBox)
+    </script>
+</body>
+
+</html>
