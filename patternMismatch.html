@@ -18,7 +18,7 @@
         .marks {
             position: absolute;
             right: 0;
-            top: 0;
+            top: 5px;
             display: flex;
             align-items: center;
             font-size: 30px;
@@ -118,6 +118,12 @@
                 }, 1000);
                 field.setCustomValidity(msg)
                 divError.textContent = `${msg}，09 開頭的 10 個數字`;
+            } else if (field.validity.valueMissing) {
+                iconInvaild.classList.remove("hidden");
+                setTimeout(() => {
+                    iconInvaild.classList.add("animate__animated");
+                    iconInvaild.classList.add("animate__tada");
+                }, 1000);
             } else {
                 iconVaild.classList.remove("hidden");
                 setTimeout(() => {
