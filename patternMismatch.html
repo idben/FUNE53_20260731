@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css"
+        integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        .fz12px {
+            font-size: 12px;
+        }
+
+        .marks {
+            position: absolute;
+            right: 0;
+            top: 0;
+            display: flex;
+            align-items: center;
+            font-size: 30px;
+            height: 38px;
+            width: 38px;
+
+            .fa-square-xmark {
+                position: absolute;
+                left: 0;
+                top: 0;
+                color: #e31616;
+            }
+
+            .fa-square-check {
+                position: absolute;
+                left: 0;
+                top: 0;
+                color: #40c607;
+            }
+
+            .hidden {
+                display: none;
+            }
+        }
+    </style>
+    <title>patternMismatch 驗證展示</title>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h1>patternMismatch 驗證展示</h1>
+        <form action="" novalidate>
+            <div class="position-relative w-100">
+                <div class="input-group w-100">
+                    <span class="input-group-text">手機號碼</span>
+                    <input class="form-control" type="tel" id="phone" name="phone" required placeholder="0988888888"
+                        pattern="09\d{8}">
+                    <!-- 09[0-9]{8} -->
+                </div>
+                <div class="marks">
+                    <i class="fa-solid fa-square-xmark hidden"></i>
+                    <i class="fa-solid fa-square-check hidden"></i>
+                </div>
+            </div>
+
+            <div class=" error-msg fz12px text-danger" id="phone-error">自訂錯誤訊息
+            </div>
+            <div class="d-flex gap-1 mt-1">
+                <button type="submit" class="btn btn-primary ms-auto">送出</button>
+                <button type="reset" class="btn btn-primary">重設</button>
+            </div>
+        </form>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script>
+        const form = document.querySelector("form");
+        const field = document.querySelector("#phone");
+        const divError = document.querySelector("#phone-error");
+        const iconInvaild = document.querySelector(".marks .fa-square-xmark")
+        const iconVaild = document.querySelector(".marks .fa-square-check")
+        divError.textContent = "";
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            validateField(e);
+            if (!field.validity.valid) {
+                field.reportValidity();
+            } else {
+                alert("驗證通過");
+                // 最後要再讓表單執行 submit
+                // form.submit()
+            }
+        });
+
+        function validateField(e) {
+            // validity 是跟著欄位跑的，要由欄位取得
+            console.log(field.validity);
+            iconInvaild.classList.add("hidden");
+            iconVaild.classList.add("hidden");
+            iconInvaild.classList.remove("animate__animated");
+            iconInvaild.classList.remove("animate__tada");
+            iconVaild.classList.remove("animate__animated");
+            iconVaild.classList.remove("animate__tada");
+
+            const msg = "手機號碼格式不正確";
+            field.setCustomValidity(""); // 清空 UI
+            if (field.validity.patternMismatch) {
+                iconInvaild.classList.remove("hidden");
+                setTimeout(() => {
+                    iconInvaild.classList.add("animate__animated");
+                    iconInvaild.classList.add("animate__tada");
+                }, 1000);
+                field.setCustomValidity(msg)
+                divError.textContent = `${msg}，09 開頭的 10 個數字`;
+            } else {
+                iconVaild.classList.remove("hidden");
+                setTimeout(() => {
+                    iconVaild.classList.add("animate__animated");
+                    iconVaild.classList.add("animate__tada");
+                }, 1000);
+                field.setCustomValidity("");
+                divError.textContent = "";
+            }
+
+        }
+    </script>
+</body>
+
+</html>
