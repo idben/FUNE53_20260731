@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>clipboard API</title>
+</head>
+
+<body>
+    <div class="container">
+        <div id="content" class="border rounded mt-2">
+            是啊請您所說角度內容後悔工作電器離開監管忍不住，看見對手聯繫方式，演唱會醫學擔心面向創新，資本不同後果，出發權限競爭才是本站嚴重懷疑讓人浪費參與觀察，堅持確實尤其秘密設立十分大眾商務她的分別，笑話事。
+        </div>
+        <div class="d-flex">
+            <button class="btn btn-primary ms-auto btn-copy" data-bs-toggle="tooltip" data-bs-title="複製成功"
+                data-bs-placement="left">複製</button>
+        </div>
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script>
+        const content = document.querySelector("#content");
+        const btnCopy = document.querySelector(".btn-copy");
+        // 啟動所有 tooltip
+        // document.querySelectorAll("[data-bs-toggle=tooltip]")
+        //     .forEach((elm) => {
+        //         new bootstrap.Tooltip(elm)
+        //     })
+
+        // 個別啟用 tooltip，設定 trigger 為 manual，手動觸發
+        const tooltip = new bootstrap.Tooltip(btnCopy, {
+            trigger: "manual"
+        })
+
+        btnCopy.addEventListener("click", async (e) => {
+            const btn = e.target;
+            btn.disabled = true;   // 複製開始先禁用按鈕
+            const copyText = content.innerText;
+            await navigator.clipboard.writeText(copyText);
+            tooltip.show();     // 顯示 tooltip
+            // 寫計時器讓 tooltip 自動消失
+            setTimeout(() => {
+                tooltip.hide();
+                btn.disabled = false;  // 複製成功啟用按鈕
+            }, 2000);
+        });
+    </script>
+</body>
+
+</html>
